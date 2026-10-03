@@ -1,0 +1,38 @@
+name: Setup gno
+description: Install gno and gnodev from gnolang/gno at the revision gnoland-1 runs, and export GNOROOT.
+
+inputs:
+  ref:
+    description: gnolang/gno commit (the chain/mainnet tag)
+    default: 9c8eb132e483d6fd324d92c193e629ad65a98a37
+
+runs:
+  using: composite
+  steps:
+    # Cloned outside the workspace so `gno ./...` does not walk it.
+    - name: Fetch gnolang/gno
+      shell: bash
+      env:
+        GNO_REF: ${{ inputs.ref }}
+      run: |
+        root="${RUNNER_TEMP}/gnoroot"
+        git init -q "$root"
+        git -C "$root" fetch -q --depth 1 https://github.com/gnolang/gno "$GNO_REF"
+        git -C "$root" checkout -q FETCH_HEAD
+        echo "GNOROOT=$root" >> "$GITHUB_ENV"
+
+    - name: Cache gno binaries
+      id: cache
+      uses: actions/cache@v6
+      with:
+        path: |
+          ~/go/bin/gno
+          ~/go/bin/gnodev
+        key: gno-bin-${{ runner.os }}-${{ inputs.ref }}
+
+    - name: Build gno and gnodev
+      if: steps.cache.outputs.cache-hit != 'true'
+      shell: bash
+      run: |
+        cd "$GNOROOT" && go install ./gnovm/cmd/gno
+        cd "$GNOROOT/contribs/gnodev" && go install .

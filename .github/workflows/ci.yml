@@ -1,0 +1,74 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  CGO_ENABLED: "0"
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - uses: actions/setup-go@v7
+        with:
+          go-version-file: go.mod
+      - uses: ./.github/actions/setup-gno
+
+      - name: gofmt
+        run: test -z "$(gofmt -l cmd internal e2e | tee /dev/stderr)"
+      - name: go vet
+        run: go vet -tags e2e ./...
+      - uses: golangci/golangci-lint-action@v9
+        with:
+          version: v2.14.0
+          args: --build-tags e2e
+      - name: gno fmt
+        run: gno fmt -diff ./p ./r
+      - name: gno lint
+        run: gno lint ./...
+
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - uses: actions/setup-go@v7
+        with:
+          go-version-file: go.mod
+      - uses: ./.github/actions/setup-gno
+
+      - name: gno test
+        run: gno test ./...
+      - name: go test
+        run: go test ./...
+
+  # gnodev + live drand: request, relay, on-chain verify, settle.
+  e2e:
+    runs-on: ubuntu-latest
+    needs: test
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - uses: actions/setup-go@v7
+        with:
+          go-version-file: go.mod
+      - uses: ./.github/actions/setup-gno
+
+      - name: e2e
+        run: go test -tags e2e -count=1 -v ./e2e
