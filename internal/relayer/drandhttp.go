@@ -48,7 +48,7 @@ func (s HTTPSource) fetch(ctx context.Context, mirror string, round uint64) (Bea
 	if err != nil {
 		return Beacon{}, err
 	}
-	defer resp.Body.Close()
+	defer func() { _ = resp.Body.Close() }()
 	if resp.StatusCode != http.StatusOK {
 		return Beacon{}, fmt.Errorf("http %d", resp.StatusCode)
 	}

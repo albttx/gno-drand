@@ -142,7 +142,7 @@ func TestHTTPSourceFallsBack(t *testing.T) {
 			http.NotFound(w, req)
 			return
 		}
-		fmt.Fprintf(w, `{"round":1000,"randomness":"x","signature":%q}`, known[1000])
+		_, _ = fmt.Fprintf(w, `{"round":1000,"randomness":"x","signature":%q}`, known[1000])
 	}))
 	defer up.Close()
 

@@ -98,7 +98,7 @@ func fetch(c *http.Client, api string, round uint64) (beacon, error) {
 	if err != nil {
 		return b, err
 	}
-	defer resp.Body.Close()
+	defer func() { _ = resp.Body.Close() }()
 	if resp.StatusCode != http.StatusOK {
 		return b, fmt.Errorf("http %s", resp.Status)
 	}

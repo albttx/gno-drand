@@ -15,7 +15,9 @@ import (
 
 	"github.com/drand/kyber"
 	"github.com/drand/kyber/pairing/bn254"
-	"github.com/drand/kyber/sign/bls"
+	// Deprecated for signature aggregation (rogue-key attack). We only verify
+	// single threshold signatures, as drand/crypto/schemes.go does.
+	"github.com/drand/kyber/sign/bls" //nolint:staticcheck
 	"golang.org/x/crypto/sha3"
 )
 

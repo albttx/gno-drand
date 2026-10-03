@@ -164,7 +164,7 @@ func startGnodev(t *testing.T, premine string) string {
 			b, _ := io.ReadAll(logf)
 			t.Logf("gnodev log:\n%s", b)
 		}
-		logf.Close()
+		_ = logf.Close()
 	})
 	return "http://" + listen
 }
@@ -174,7 +174,7 @@ func freeAddr(t *testing.T) string {
 	if err != nil {
 		t.Fatal(err)
 	}
-	defer l.Close()
+	defer func() { _ = l.Close() }()
 	return l.Addr().String()
 }
 
