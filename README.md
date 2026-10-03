@@ -1,5 +1,7 @@
 # gno-drand
 
+[![ci](https://github.com/albttx/gno-drand/actions/workflows/ci.yml/badge.svg)](https://github.com/albttx/gno-drand/actions/workflows/ci.yml)
+
 Verifiable randomness for every gno.land realm, from [drand](https://drand.love), checked on-chain.
 
 A realm asks for randomness, a relayer brings the drand beacon, and gno.land verifies its BLS signature with the native BN254 pairing. No oracle committee, no trusted relayer: a relayer can only deliver the real beacon, or nothing.
@@ -113,6 +115,14 @@ RELAYER_MNEMONIC="..." ./relayer -remote http://127.0.0.1:26657 -chain-id dev
 
 Each beacon is verified locally before it is sent, so a bad mirror never costs gas.
 
+### Docker
+
+```sh
+docker run --rm -e RELAYER_MNEMONIC="..." ghcr.io/albttx/gno-drand-relayer:main
+```
+
+Images are published from `main` (`:main`, `:sha-<commit>`) and from `v*` tags (`:1.2.3`), for linux/amd64 and linux/arm64.
+
 ## Development
 
 Requires `gno` and `gnodev` built from a `gnolang/gno` checkout at the revision the target chain runs (`chain/mainnet` for gnoland-1), with `GNOROOT` pointing at it.
@@ -124,6 +134,8 @@ make vectors    # regenerate p/drand/vectors_test.gno from live drand
 ```
 
 `CGO_ENABLED=0` is set in the Makefile: the relayer does not need cgo.
+
+CI (`.github/workflows`) runs the same gates on every PR: gofmt, `go vet`, golangci-lint, `gno fmt`, `gno lint`, gno and Go tests, the gnodev e2e, and a multi-arch image build. gno and gnodev are built from the gnolang/gno commit gnoland-1 runs.
 
 ## Limits
 
