@@ -2,6 +2,14 @@
 
 [![ci](https://github.com/albttx/gno-drand/actions/workflows/ci.yml/badge.svg)](https://github.com/albttx/gno-drand/actions/workflows/ci.yml)
 
+> [!WARNING]
+> This repository is the prototype. The code is being upstreamed to the official gno repository in [gnolang/gno#6268](https://github.com/gnolang/gno/pull/6268), which supersedes it:
+>
+> - The packages move to `gno.land/p/drand/v0` and `gno.land/r/drand/v0` (instead of `gno.land/{p,r}/albttx/drand/v0`), the demo to `gno.land/r/drand/coinflip/v0`, and the relayer to `contribs/gnodrand`.
+> - The PR version is cheaper (`Verify` about 9.6M gas, `Submit` about 17.9M) and follows the current interrealm rules (no `cur.IsCurrent()` guard in crossing functions).
+>
+> New work should target the PR.
+
 Verifiable randomness for every gno.land realm, from [drand](https://drand.love), checked on-chain.
 
 A realm asks for randomness, a relayer brings the drand beacon, and gno.land verifies its BLS signature with the native BN254 pairing. No oracle committee, no trusted relayer: a relayer can only deliver the real beacon, or nothing.
