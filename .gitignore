@@ -1,2 +1,7 @@
 /relayer
 /genvectors
+
+# devenv
+.devenv*
+devenv.local.nix
+.direnv
