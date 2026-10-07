@@ -35,7 +35,7 @@ func Draw(cur realm) {
 }
 ```
 
-[`r/demo/coinflip`](r/demo/coinflip/coinflip.gno) is a complete example.
+[`r/demo/coinflip`](gno.land/r/demo/coinflip/coinflip.gno) is a complete example.
 
 **One rule:** record everything the randomness decides *before* calling `Request`. The request is pinned to a drand round that is not published yet, so nobody, including you and the validators, can know the outcome when the inputs are frozen.
 
@@ -71,9 +71,9 @@ Cost: one verification is about 12M gas, roughly 0.012 GNOT at the mainnet price
 
 | Path | What |
 |---|---|
-| [`gno.land/p/albttx/drand/v0`](p/drand) | Pure library: `Verify`, `HashToG1`, `Randomness`, `Derive`, `NewRand`, `RoundAt`, `TimeOf` |
-| [`gno.land/r/albttx/drand/v0`](r/drand) | The realm: `Request`, `RequestAfter`, `Submit`, `Get`, `MustGet`, `Status`, `Beacon`, `PendingRounds` |
-| [`gno.land/r/albttx/demo/coinflip/v0`](r/demo/coinflip) | Example consumer |
+| [`gno.land/p/albttx/drand/v0`](gno.land/p/drand) | Pure library: `Verify`, `HashToG1`, `Randomness`, `Derive`, `NewRand`, `RoundAt`, `TimeOf` |
+| [`gno.land/r/albttx/drand/v0`](gno.land/r/drand) | The realm: `Request`, `RequestAfter`, `Submit`, `Get`, `MustGet`, `Status`, `Beacon`, `PendingRounds` |
+| [`gno.land/r/albttx/demo/coinflip/v0`](gno.land/r/demo/coinflip) | Example consumer |
 | [`cmd/relayer`](cmd/relayer) | Go relayer binary |
 | [`cmd/genvectors`](cmd/genvectors) | Regenerates the gno test vectors from live drand + kyber |
 | [`internal/evmnet`](internal/evmnet) | Off-chain reference verifier (drand/kyber) |
@@ -138,7 +138,7 @@ Requires `gno` and `gnodev` built from a `gnolang/gno` checkout at the revision 
 ```sh
 make test       # gno lint + gno test + go vet + go test
 make e2e        # gnodev + live drand: request, relay, verify, settle
-make vectors    # regenerate p/drand/vectors_test.gno from live drand
+make vectors    # regenerate gno.land/p/drand/vectors_test.gno from live drand
 ```
 
 `CGO_ENABLED=0` is set in the Makefile: the relayer does not need cgo.

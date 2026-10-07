@@ -5,7 +5,7 @@
 // writes them as a gno test file so the on-chain port is tested against the
 // reference without network access.
 //
-//	go run ./cmd/genvectors -out p/drand/vectors_test.gno
+//	go run ./cmd/genvectors -out gno.land/p/drand/vectors_test.gno
 package main
 
 import (
@@ -33,7 +33,7 @@ type beacon struct {
 var rounds = []uint64{1, 2, 1000, 1000000, 10000000, 20000000, 21167346}
 
 func main() {
-	out := flag.String("out", "p/drand/vectors_test.gno", "output gno file")
+	out := flag.String("out", "gno.land/p/drand/vectors_test.gno", "output gno file")
 	api := flag.String("api", "https://api.drand.sh", "drand HTTP endpoint")
 	flag.Parse()
 
