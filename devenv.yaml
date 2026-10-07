@@ -1,0 +1,8 @@
+# gno binaries come from the gno overlay in github.com/albttx/nixpkgs.
+inputs:
+  nixpkgs:
+    url: github:cachix/devenv-nixpkgs/rolling
+  albttx-nixpkgs:
+    url: github:albttx/nixpkgs
+    overlays:
+      - gno

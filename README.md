@@ -133,7 +133,7 @@ Images are published from `main` (`:main`, `:sha-<commit>`) and from `v*` tags (
 
 ## Development
 
-Requires `gno` and `gnodev` built from a `gnolang/gno` checkout at the revision the target chain runs (`chain/mainnet` for gnoland-1), with `GNOROOT` pointing at it.
+Requires `gno` and `gnodev` built from a `gnolang/gno` checkout at the revision the target chain runs (`chain/mainnet` for gnoland-1), with `GNOROOT` pointing at it. [devenv](https://devenv.sh) provides both, see below.
 
 ```sh
 make test       # gno lint + gno test + go vet + go test
@@ -142,6 +142,19 @@ make vectors    # regenerate gno.land/p/drand/vectors_test.gno from live drand
 ```
 
 `CGO_ENABLED=0` is set in the Makefile: the relayer does not need cgo.
+
+### Local chain with devenv
+
+[devenv](https://devenv.sh) brings up the whole system: a gnodev chain with the realms deployed, and the relayer submitting live evmnet beacons to it.
+
+```sh
+devenv up       # gnodev on :26657, gnoweb on :8888, relayer once the node is healthy
+devenv shell    # gno, gnokey, gnodev, gnoweb and the Go toolchain on PATH
+```
+
+The gno toolchain comes from the `gno` overlay in [albttx/nixpkgs](https://github.com/albttx/nixpkgs), pinned to a `gnolang/gno` tag, and `GNOROOT` points at the same source tree so the standard library and the `examples/` realms resolve. The relayer signs with `test1`, the account gnodev premines at genesis.
+
+gnodev watches the tree: edit a `.gno` under `gno.land/` and the realm reloads.
 
 CI (`.github/workflows`) runs the same gates on every PR: gofmt, `go vet`, golangci-lint, `gno fmt`, `gno lint`, gno and Go tests, the gnodev e2e, and a multi-arch image build. gno and gnodev are built from the gnolang/gno commit gnoland-1 runs.
 
