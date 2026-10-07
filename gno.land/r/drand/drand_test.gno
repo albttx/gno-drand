@@ -11,7 +11,7 @@ import (
 	"gno.land/p/nt/uassert/v0"
 )
 
-// Real evmnet beacons (same as p/drand/vectors_test.gno).
+// Real evmnet beacons (same as gno.land/p/drand/vectors_test.gno).
 const (
 	sig2           = "1dbfe644485f31e2a7978fb551b50933b0001e64397fd2b7dc4022e8e2fcdbc325798cea5506deec489c8db3b4697f6b1bb6be8934b95bd9c0db88923487d9ad"
 	sig1000        = "06fd5996329504d3a56b482d9222bf7205857d0a9559ddd216ca31a286f6a8cc0a120f021aac2f13553fb164f62bc3a5ca32c76dea88a777b39bcf3cac5fdbd6"

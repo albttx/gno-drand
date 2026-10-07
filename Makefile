@@ -16,8 +16,8 @@ e2e:
 	go test -tags e2e -count=1 -v ./e2e
 
 vectors:
-	go run ./cmd/genvectors -out p/drand/vectors_test.gno
+	go run ./cmd/genvectors -out gno.land/p/drand/vectors_test.gno
 
 fmt:
-	gno fmt -w ./p ./r
+	gno fmt -w ./gno.land/p ./gno.land/r
 	gofmt -w cmd internal e2e

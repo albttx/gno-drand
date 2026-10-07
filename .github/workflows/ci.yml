@@ -36,7 +36,7 @@ jobs:
           version: v2.14.0
           args: --build-tags e2e
       - name: gno fmt
-        run: gno fmt -diff ./p ./r
+        run: gno fmt -diff ./gno.land/p ./gno.land/r
       - name: gno lint
         run: gno lint ./...
 
